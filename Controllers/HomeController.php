@@ -31,8 +31,14 @@ class HomeController extends BaseController {
 
         $data = array(
             'models' => array(),
-            'devices' => array()
+            'devices' => array(),
+            'networks' => array()
         );
+
+        foreach($networks as $network){
+            $t = json_decode($network->to_json());
+            $data['networks'][] = $t;
+        }
 
         foreach ($ms as $d) {
             $t = json_decode($d->to_json());
@@ -44,6 +50,7 @@ class HomeController extends BaseController {
             $t = json_decode($d->to_json());
             $t->colors = $this->fetch_array($d->colors);
             $t->sizes = $this->fetch_array($d->sizes);
+            $t->base_line_prices = $this->fetch_array($d->base_line_prices);
             $t->slug = url_title($t->model);
             $data['devices'][] = $t;
         }
@@ -54,7 +61,8 @@ class HomeController extends BaseController {
         $r = array();
         foreach ($colors as $color) {
             $v = json_decode($color->to_json());
-            $v->slug = url_title($color->value);
+            if(isset($color->value))
+                $v->slug = url_title($color->value);
             $r[] = $v;
         }
         return $r;

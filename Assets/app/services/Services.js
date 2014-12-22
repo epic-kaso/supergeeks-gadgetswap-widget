@@ -62,6 +62,24 @@ app.factory('CurrentGadget',function(){
 
 app.factory('GadgetsInfoServ',function($http,GadgetServ,$q){
     var cache;
+    var networks = [
+        {
+            name: 'Airtel',
+            image_url: 'airtel.jpg'
+        },
+        {
+            name: 'Mtn',
+            image_url: 'mtn.jpg'
+        },
+        {
+            name: 'Glo',
+            image_url: 'glo.jpg'
+        },
+        {
+            name: 'Etisalat',
+            image_url: 'etisalat.jpg'
+        }
+    ];
     return {
         'get': function(){
             var p = $q.defer();
@@ -111,6 +129,35 @@ app.factory('GadgetsInfoServ',function($http,GadgetServ,$q){
                     return v;
             },result);
             return result.data;
+        },
+        getModelBySlug: function(device_model){
+            var result = {data: ''};
+            angular.forEach(cache.devices,function(v,k){
+                if(v['slug'] == device_model)
+                    this.data = v;
+                return v;
+            },result);
+            return result.data;
+        },
+        getSizeModelBySlug: function(input,model){
+            var result = {data: ''};
+            angular.forEach(model.sizes,function(v,k){
+                if(v['slug'] == input)
+                    this.data = v;
+                return v;
+            },result);
+            return result.data;
+        },
+        getNetworks: function(){
+            return networks;
+        },
+        getNetworkByName: function(name){
+            for(var i = 0;i < networks.length; i++){
+                if(networks[i].name == name)
+                    return networks[i];
+            }
+            return {};
         }
+
     }
 });

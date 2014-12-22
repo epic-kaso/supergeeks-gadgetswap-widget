@@ -307,6 +307,16 @@
         'ngAnimate'
     ]);
 
+    app.factory('ImageFetcher',function($http){
+       var searchUrl = "https://www.googleapis.com/customsearch/v1?key=AIzaSyDa3bBU9KzRRnnj6KHKJlB6Pc1oc9Ivs7Y&cx=011505858740112002603:dap5yb7naau&q=";
+
+        return {
+            fetch: function(query){
+                return $http.get(searchUrl+encodeURI(query));
+            }
+        }
+
+    });
     app.config(function ($stateProvider, $urlRouterProvider) {
         //
         // For any unmatched url, redirect to /state1
@@ -317,7 +327,14 @@
             name: 'allDevices',
             url: "/",
             templateUrl: "AllDevices.html",
-            controller: function($scope,$http){
+            controller: function($scope,$http,ImageFetcher){
+
+                ImageFetcher.fetch('Samsung galaxy s5').then(function(response){
+                    console.log(response);
+                },function(response){
+                    console.log(response);
+                });
+
                 $scope.deleteItem = function(id){
                     var current = window.location.href,
                     url = window.location.origin +

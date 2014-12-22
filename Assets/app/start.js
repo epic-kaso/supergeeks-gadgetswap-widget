@@ -13,9 +13,44 @@ var app = angular.module('SupergeeksWidget',
         'SupergeeksWidget.directives'
     ]);
 
-app.run(function ($rootScope, CurrentGadget,GadgetsInfoServ) {
+app.run(function ($rootScope, CurrentGadget,GadgetsInfoServ,$location) {
     GadgetsInfoServ.get();
     $rootScope.currentGadget = CurrentGadget.fetch();
+    $rootScope.updateAndGetCurrentModel = function($stateParams,$rootScope,GadgetsInfoServ){
+        //:device_make/:device_model/:device_size/:device_network/:device_condition
+        angular.forEach($stateParams,function(value,key){
+            switch (key){
+                case 'device_make':
+                    if(!$rootScope.currentGadget.make)
+                        $rootScope.currentGadget.make = value;
+                    break;
+                case 'device_model':
+                    if(!$rootScope.currentGadget.model)
+                        $rootScope.currentGadget.model = GadgetsInfoServ.getModelBySlug(value);
+                    break;
+                case 'device_size':
+                    if(!$rootScope.currentGadget.size)
+                        $rootScope.currentGadget.size = GadgetsInfoServ.getSizeModelBySlug(value,$rootScope.currentGadget.model);
+                    break;
+                case 'device_network':
+                    if(!$rootScope.currentGadget.network)
+                        $rootScope.currentGadget.network = GadgetsInfoServ.getNetworkByName(value);
+                    break;
+                case 'device_condition':
+                    if(!$rootScope.currentGadget.condition)
+                        $rootScope.currentGadget.condition = value;
+                    break;
+            }
+        });
+    };
+
+    $rootScope.$on('$stateChangeStart',function(event,toState,toParams,fromState,fromParams){
+        $rootScope.updateAndGetCurrentModel(toParams,$rootScope,GadgetsInfoServ);
+    });
+
+    $rootScope.$on('$stateNotFound',function(){
+        $location.path('/devices');
+    })
 });
 
 app.constant('ViewBaseURL','/Assets/app/views');
@@ -73,7 +108,7 @@ app.config(function ($stateProvider, $urlRouterProvider,ViewBaseURL) {
             'CurrentModel': function($stateParams,GadgetsInfoServ){
                 return GadgetsInfoServ.getModelByName($stateParams.device_model);
             },
-            'Networks': function ($rootScope) {
+            'Networks': function ($rootScope,GadgetsInfoServ) {
                 if ($rootScope.currentGadget.make == '' ||
                     $rootScope.currentGadget.model == '' ||
                     $rootScope.currentGadget.size == ''
@@ -81,24 +116,7 @@ app.config(function ($stateProvider, $urlRouterProvider,ViewBaseURL) {
                     $rootScope.$broadcast('required:size');
                 }
 
-                return [
-                    {
-                        name: 'Airtel',
-                        image_url: 'airtel.jpg'
-                    },
-                    {
-                        name: 'Mtn',
-                        image_url: 'mtn.jpg'
-                    },
-                    {
-                        name: 'Glo',
-                        image_url: 'glo.jpg'
-                    },
-                    {
-                        name: 'Etisalat',
-                        image_url: 'etisalat.jpg'
-                    }
-                ]
+                return GadgetsInfoServ.getNetworks();
             }
         }
     };
@@ -151,5 +169,5 @@ app.config(function ($stateProvider, $urlRouterProvider,ViewBaseURL) {
         .state(deviceCondition)
         .state(deviceReward)
         .state(bookAppointment)
-        .state(success)
+        .state(success);
 });
