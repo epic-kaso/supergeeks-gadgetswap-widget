@@ -2,6 +2,7 @@
 
     require 'Libs/Slim/Slim.php';
     require 'Libs/PhpActiverecord/ActiveRecord.php';
+    require 'Libs/helpers.php';
 
     require_once 'Controllers/BaseController.php';
     require_once 'Controllers/HomeController.php';

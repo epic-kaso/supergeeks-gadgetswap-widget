@@ -103,6 +103,7 @@ h1,h2,h3,h4{
 
 .progress-item a.active{
     color: #27a5d5;
+    box-shadow: none;
 }
 
 .progress-item a:hover{

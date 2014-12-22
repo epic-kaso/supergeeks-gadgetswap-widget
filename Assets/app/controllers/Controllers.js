@@ -14,7 +14,7 @@ app.controller('NavbarController', [
     }
 ]);
 
-app.controller('DeviceMakeController', function ($scope,Makes,$rootScope,TimeLine) {
+app.controller('DeviceMakeController', function ($scope,Makes,$rootScope) {
     $rootScope.tiny_heading = 'Swap your all Gadget for Awesome Rewards';
     $rootScope.big_heading = 'First, Choose your Make';
     $rootScope.device_make = 'others';
@@ -39,24 +39,12 @@ app.controller('DeviceModelController',
 
         $scope.selectModel = function (model, state) {
             $scope.currentGadget.model = model;
-            $state.go(state);
+            $state.go(state,
+                {
+                    device_make: $stateParams.device_make,
+                    device_model: model.slug
+                });
         }
-    });
-
-app.controller('DeviceColorController',
-    function ($scope, $stateParams, $cookieStore, GadgetServ, $state,$rootScope) {
-        $rootScope.big_heading = 'Now, Choose your Device Color';
-
-        $scope.$emit('progress-update-event', '42%');
-        $scope.image_label = $scope.currentGadget.make + ' ' +$scope.currentGadget.model.model;
-
-        $scope.colors = $scope.currentGadget.model.colors;
-
-        $scope.selectColor = function (color, state) {
-            $scope.currentGadget.color = color;
-            $state.go(state);
-        }
-
     });
 
 app.controller('DeviceSizeController',
@@ -67,14 +55,19 @@ app.controller('DeviceSizeController',
 
         $scope.device_class = $rootScope.device_make = 'others';
         $scope.image_label = $scope.currentGadget.make +' '+
-                             $scope.currentGadget.model.model+ ' '+
-                             $scope.currentGadget.color.value;
+                             $scope.currentGadget.model.model;
 
         $scope.sizes = $scope.currentGadget.model.sizes;
 
         $scope.selectSize = function (size, state) {
             $scope.currentGadget.size = size;
-            $state.go(state);
+            $state.go(state,
+                {
+                    device_make: $stateParams.device_make,
+                    device_model: $stateParams.device_model,
+                    device_size: size.slug
+                }
+            );
         }
     });
 
@@ -87,19 +80,24 @@ app.controller('DeviceNetworkController',
 
         $scope.device_class = $rootScope.device_make = 'others';
         $scope.image_label = $scope.currentGadget.make +' '+
-        $scope.currentGadget.model.model+ ' '+
-        $scope.currentGadget.color.value;
+        $scope.currentGadget.model.model;
 
         $scope.networks = Networks;
 
         $scope.selectNetwork = function (network, state) {
             $scope.currentGadget.network = network;
-            $state.go(state);
+            $state.go(state,
+                {
+                    device_make:  $stateParams.device_make,
+                    device_model: $stateParams.device_model,
+                    device_size:  $stateParams.device_size,
+                    device_network: network.name
+                });
         }
     });
 
 app.controller('DeviceConditionController',
-    function ($scope, $stateParams, $cookieStore, GadgetServ, $state,$rootScope) {
+    function (CurrentModel,$scope, $stateParams, GadgetServ, $state,$rootScope) {
         $rootScope.big_heading = 'Lastly, Tell Us Your Device\'s Condition';
 
         $scope.$emit('progress-update-event', '70%');
@@ -113,12 +111,19 @@ app.controller('DeviceConditionController',
 
         $scope.image_label = $scope.currentGadget.make +' '+
                              $scope.currentGadget.model.model+ ' '+
-                             $scope.currentGadget.color.value + ' '+
                              $scope.currentGadget.size.value + ' ';
 
-        $scope.viewReward = function (state,data) {
+        $scope.viewReward = function (state) {
             $scope.$emit('progress-update-event', '100%');
-            $state.go(state,data);
+            $state.go(state,
+                {
+                    device_make:  $stateParams.device_make,
+                    device_model: $stateParams.device_model,
+                    device_size:  $stateParams.device_size,
+                    device_network: $stateParams.device_network,
+                    device_condition: $scope.currentGadget.condition
+                }
+            );
         }
     });
 

@@ -48,5 +48,16 @@ app.directive('previousButton',function($state,TimeLine){
                $state.transitionTo(TimeLine.prev());
            })
        }
-   }
+   };
+});
+
+app.directive('ensureValid',function(){
+   return {
+       'restrict': 'EA',
+       'link': function(scope,elem,attrs){
+           elem.on('click',function(){
+               $state.transitionTo(TimeLine.prev());
+           })
+       }
+   };
 });

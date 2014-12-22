@@ -51,12 +51,14 @@ class DevicesController extends BaseController {
             foreach ($ms as $d) {
                 $t = json_decode($d->to_json());
                 $t->image_url = strtolower($t->name) . '.png';
+                $t->slug = url_title($t->name);
                 $data['models'][] = $t;
             }
             foreach ($ds as $d) {
                 $t = json_decode($d->to_json());
                 $t->colors = $this->fetch_array($d->colors);
                 $t->sizes = $this->fetch_array($d->sizes);
+                $t->slug = url_title($t->model);
                 $data['devices'][] = $t;
             }
 
@@ -176,7 +178,9 @@ class DevicesController extends BaseController {
     private function fetch_array($colors) {
         $r = array();
         foreach ($colors as $color) {
-            $r[] = json_decode($color->to_json());
+            $v = json_decode($color->to_json());
+            $v->slug = url_title($color->value);
+            $r[] = $v;
         }
         return $r;
     }

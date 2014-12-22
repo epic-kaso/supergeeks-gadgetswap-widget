@@ -11,6 +11,10 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/Assets/css/main.css">
+    <script>
+        window.gadget_swap = {};
+        window.gadget_swap.data = <?= json_encode($objects) ?>;
+    </script>
 </head>
 <body>
 <div class="navbar navbar-plain">
@@ -48,45 +52,56 @@
     <div class="progress-bar" progress-bar val="progress"></div>
     <div class="container-fluid">
         <div class="progress-item back-button">
-            <span class="glyphicon glyphicon-chevron-left back-button" previous-button></span>
+            <span class="glyphicon glyphicon-chevron-left back-button"></span>
         </div>
         <div class="progress-item">
-            <a ui-sref="device-make" ui-sref-active="active">
+            <a
+                class="btn"
+                ui-sref="device-make"
+                ui-sref-active="active">
                 <p>Device</p>
                 <span ng-bind="currentGadget.make"></span>
             </a>
         </div>
 
         <div class="progress-item">
-            <a ui-sref="device-model" ui-sref-active="active">
+            <a
+                class="btn"
+                ng-class="{disabled: !currentGadget.make}"
+                ui-sref="device-model({device_make: currentGadget.make})"
+                ui-sref-active="active">
                 <p>Model</p>
                 <span ng-bind="currentGadget.model.model"></span>
             </a>
         </div>
 
-<!--        <div class="progress-item">-->
-<!--            <a ui-sref="device-color" ui-sref-active="active">-->
-<!--                <p>Color</p>-->
-<!--                <span ng-bind="currentGadget.color.value"></span>-->
-<!--            </a>-->
-<!--        </div>-->
-
         <div class="progress-item">
-            <a ui-sref="device-size" ui-sref-active="active">
+            <a
+                class="btn"
+                ui-sref="device-size({device_make: currentGadget.make,device_model: currentGadget.model.slug})"
+                ng-class="{disabled: !currentGadget.make || !currentGadget.model.slug}"
+                ui-sref-active="active">
                 <p>Size</p>
                 <span ng-bind="currentGadget.size.value"></span>
             </a>
         </div>
 
         <div class="progress-item">
-            <a ui-sref="device-network" ui-sref-active="active">
+            <a
+                class="btn"
+                ui-sref="device-network({device_make: currentGadget.make,device_model: currentGadget.model.slug,device_size: currentGadget.size.slug})"
+                ng-class="{disabled: !currentGadget.make || !currentGadget.model.slug || !currentGadget.size.slug}"
+                ui-sref-active="active">
                 <p>Network</p>
                 <span ng-bind="currentGadget.network.name"></span>
             </a>
         </div>
 
         <div class="progress-item">
-            <a ui-sref="device-condition" ui-sref-active="active">
+            <a
+                class="btn"
+                ng-class="{disabled: !currentGadget.make || !currentGadget.model.slug || !currentGadget.size.slug || !currentGadget.network.name}"
+                ui-sref="device-condition({device_make: currentGadget.make,device_model: currentGadget.model.slug,device_size: currentGadget.size.slug,device_network: currentGadget.network.name})" ui-sref-active="active">
                 <p>Condition</p>
                 <span ng-bind="currentGadget.condition" ></span>
             </a>

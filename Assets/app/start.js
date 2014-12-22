@@ -13,73 +13,19 @@ var app = angular.module('SupergeeksWidget',
         'SupergeeksWidget.directives'
     ]);
 
-app.run(function ($rootScope, CurrentGadget,GadgetsInfoServ,TimeLine,$location) {
+app.run(function ($rootScope, CurrentGadget,GadgetsInfoServ) {
     GadgetsInfoServ.get();
     $rootScope.currentGadget = CurrentGadget.fetch();
-    $rootScope.next = {};
-    $rootScope.next.url = TimeLine.next();
-
-    $rootScope.$on('$stateChangeStart',function(event,toState,toParams,fromState,fromParams){
-        console.log(toState);
-        switch (toState){
-            case 'device-model':
-                var p = toParams.device_make;
-                if(p == '' || angular.isUndefined(p)){
-                    event.preventDefault();
-                }
-                break;
-            case 'device-size':
-                if(
-                    angular.isUndefined($rootScope.currentGadget.make) ||
-                    angular.isUndefined($rootScope.currentGadget.model)
-                ){
-                    event.preventDefault();
-                }
-        }
-    });
-
 });
 
 app.constant('ViewBaseURL','/Assets/app/views');
 
-app.factory('TimeLine',function($state){
-    var timeline = [
-            'device-model',
-            'device-size',
-            'device-network',
-            'device-condition',
-            'device-reward'
-        ],
-        current = false;
-    var prev = [
-        'device-make'
-    ];
-    return {
-        next: function(){
-            if(current != false){
-                prev.unshift(current);
-            }
-            current =  timeline.shift();
-            return current;
-        },
-        prev: function(){
-            current = prev.shift();
-            timeline.unshift(current);
-            return current;
-        }
-    }
-});
-
 app.config(function ($stateProvider, $urlRouterProvider,ViewBaseURL) {
-    //
-    // For any unmatched url, redirect to /state1
-    $urlRouterProvider.otherwise("/device-make");
-    //
-    // Now set up the states
+    $urlRouterProvider.otherwise("/devices");
 
     var deviceMake = {
         name: 'device-make',
-        url: "/device-make",
+        url: "/devices",
         templateUrl: ViewBaseURL+"/device-make.html",
         controller: "DeviceMakeController",
         resolve: {
@@ -91,7 +37,7 @@ app.config(function ($stateProvider, $urlRouterProvider,ViewBaseURL) {
 
     var deviceModel = {
         name: 'device-model',
-        url: "/device-model/:device_make",
+        url: "/devices/:device_make",
         templateUrl: ViewBaseURL+"/device-model.html",
         controller: 'DeviceModelController',
         resolve: {
@@ -108,22 +54,25 @@ app.config(function ($stateProvider, $urlRouterProvider,ViewBaseURL) {
 
     var deviceSize = {
         name: 'device-size',
-        url: "/device-size",
+        url: "/devices/:device_make/:device_model",
         templateUrl: ViewBaseURL+"/device-size.html",
         controller: 'DeviceSizeController',
         resolve: {
-            'validDevice': function ($rootScope, $location) {
-
+            'CurrentModel': function($stateParams,GadgetsInfoServ){
+                return GadgetsInfoServ.getModelByName($stateParams.device_model);
             }
         }
     };
 
     var deviceNetwork = {
         name: 'device-network',
-        url: "/device-network",
+        url: "/devices/:device_make/:device_model/:device_size",
         templateUrl: ViewBaseURL+"/device-network.html",
         controller: 'DeviceNetworkController',
         resolve: {
+            'CurrentModel': function($stateParams,GadgetsInfoServ){
+                return GadgetsInfoServ.getModelByName($stateParams.device_model);
+            },
             'Networks': function ($rootScope) {
                 if ($rootScope.currentGadget.make == '' ||
                     $rootScope.currentGadget.model == '' ||
@@ -156,42 +105,24 @@ app.config(function ($stateProvider, $urlRouterProvider,ViewBaseURL) {
 
     var deviceCondition = {
         name: 'device-condition',
-        url: "/device-condition",
+        url: "/devices/:device_make/:device_model/:device_size/:device_network",
         templateUrl: ViewBaseURL+"/device-condition.html",
         controller: 'DeviceConditionController',
         resolve: {
-            'validDevice': function ($rootScope, $state) {
-                if (
-                    $rootScope.currentGadget.make == '' ||
-                    $rootScope.currentGadget.model == '' ||
-                    $rootScope.currentGadget.network == '' ||
-                    $rootScope.currentGadget.size == ''
-                ) {
-                    $rootScope.$broadcast('required:network');
-                } else {
-                    return true;
-                }
+            'CurrentModel': function($stateParams,GadgetsInfoServ){
+                return GadgetsInfoServ.getModelByName($stateParams.device_model);
             }
         }
     };
 
     var deviceReward = {
         name: 'device-reward',
-        url: "/device-reward",
+        url: "/devices/:device_make/:device_model/:device_size/:device_network/:device_condition",
         templateUrl: ViewBaseURL+"/device-reward.html",
         controller: 'DeviceRewardController',
         resolve: {
-            'validDevice': function ($rootScope, $state) {
-                if ($rootScope.currentGadget.make == '' ||
-                    $rootScope.currentGadget.model == '' ||
-                    $rootScope.currentGadget.network == '' ||
-                    $rootScope.currentGadget.size == '' ||
-                    $rootScope.currentGadget.condition == ''
-                ) {
-                    $rootScope.$broadcast('required:condition');
-                } else {
-                    return true;
-                }
+            'CurrentModel': function($stateParams,GadgetsInfoServ){
+                return GadgetsInfoServ.getModelByName($stateParams.device_model);
             }
         }
     };

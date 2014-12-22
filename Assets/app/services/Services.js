@@ -68,23 +68,11 @@ app.factory('GadgetsInfoServ',function($http,GadgetServ,$q){
             if(cache){
                 p.resolve(cache);
             }else{
-                $http.get(window.location.origin + '/devices',{
-                    'headers': {
-                        'X_REQUESTED_WITH': 'XMLHttpRequest'
-                    }
-                }).then(function(response){
-                    console.log('Success');
-                    console.log(response.data);
-                    GadgetServ.setModels(response.data.models);
-                    GadgetServ.setDevices(response.data.devices);
-                    cache = response.data;
-                    p.resolve(response.data);
 
-                },function(response){
-                    console.log('Failure');
-                    console.log(response);
-                    p.reject(false);
-                });
+                GadgetServ.setModels(window.gadget_swap.data.models);
+                GadgetServ.setDevices(window.gadget_swap.data.devices);
+                cache = window.gadget_swap.data;
+                p.resolve(window.gadget_swap.data);
             }
             return p.promise;
         },
@@ -113,6 +101,15 @@ app.factory('GadgetsInfoServ',function($http,GadgetServ,$q){
 
             },result);
 
+            return result.data;
+        },
+        getModelByName: function(device_model){
+            var result = {data: ''};
+            angular.forEach(cache.devices,function(v,k){
+                if(v['model'] == device_model)
+                    this.data = v;
+                    return v;
+            },result);
             return result.data;
         }
     }
