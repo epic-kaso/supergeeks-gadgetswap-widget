@@ -1,0 +1,256 @@
+body{
+    font-family: 'Open Sans',"Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
+    font-weight: 300;
+}
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+*{
+    font-family: 'Open Sans',"Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
+    font-weight: 300;
+}
+
+h1,h2,h3,h4{
+    font-family: 'Open Sans',"Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
+    font-weight: 300;
+}
+
+
+.icon {
+    background-image: url('/Assets/img/icons.png');
+    background-position-x: 0;
+    display: block;
+    height: 163px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.icon.ipad{
+    background-position-y: 0;
+    width: 130px;
+}
+.icon.others{
+    background-image: url('/Assets/img/smartphone.png');
+    background-position-y: 0;
+    width: 77px;
+    background-size: contain;
+}
+.icon.ipad_white{
+    background-image: url('/Assets/img/ipad_white_sm.png');
+    background-position-y: 0;
+    width: 150px;
+    height: 213px;
+}
+
+.icon.iphone_white{
+    background-image: url('/Assets/img/iphone_white_sm.png');
+    background-position-y: 0;
+    width: 107px;
+    height: 213px;
+}
+
+.icon.iphone {
+    background-position-y: -165px;
+    width: 77px;
+}
+
+.icon.samsung {
+    background-position-y: -495px;
+    width: 87px;
+}
+
+.icon.ipod {
+    background-position-y: -331px;
+    width: 87px;
+}
+
+.device-model a:hover{
+    border-radius: 3px;
+    border: #e8e8e8 solid 1px;
+}
+
+.device-model a {
+    text-decoration: none;
+    color: black;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+
+.big-heading {
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
+.progress-item {
+    display: inline-block;
+    width: 13%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.progress-item a{
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    color: rgba(0,0,0,0.9);
+}
+
+.progress-item a.active{
+    color: #27a5d5;
+}
+
+.progress-item a:hover{
+    background-color: #f2f2f2;
+}
+.progress-item:hover span.back-button {
+    background-color: white;
+}
+
+.progress-item span.back-button {
+    padding: 15px;
+    border-radius: 60px;
+}
+
+.progress-item:hover{
+    background-color: #f2f2f2;
+}
+
+.progress-item.back-button{
+    background-color: transparent;
+}
+.progress-item a span {
+    font-weight: 400;
+    font-size: 22px;
+}
+
+.progress-item span {
+    font-weight: 600;
+    font-size: 22px;
+}
+
+.progress-bar{
+    height: 5px;
+    width: 100%;
+    background-color: #27a5d5;
+    position: fixed;
+}
+
+.navbar-plain{
+    background-color: #ffffff;
+    border: none;
+}
+.device-make{
+    margin-bottom: 20px;
+}
+
+
+
+/* Have to set height explicity on ui-view
+to prevent collapsing during animation*/
+.v[ui-view]{
+    height: 265px;
+}
+
+.widget-canvas {
+    position: relative;
+}
+
+[ui-view].ng-enter, [ui-view].ng-leave {
+    position: absolute;
+    left: 0;
+    right: 0;
+    -webkit-transition:all .5s ease-in-out;
+    -moz-transition:all .5s ease-in-out;
+    -o-transition:all .5s ease-in-out;
+    transition:all .5s ease-in-out;
+}
+
+[ui-view].ng-enter {
+    opacity: 0;
+    -webkit-transform:scale3d(0.5, 0.5, 0.5);
+    -moz-transform:scale3d(0.5, 0.5, 0.5);
+    transform:scale3d(0.5, 0.5, 0.5);
+}
+
+[ui-view].ng-enter-active {
+    opacity: 1;
+    -webkit-transform:scale3d(1, 1, 1);
+    -moz-transform:scale3d(1, 1, 1);
+    transform:scale3d(1, 1, 1);
+}
+
+[ui-view].ng-leave {
+    opacity: 1;
+    -webkit-transform:translate3d(0, 0, 0);
+    -moz-transform:translate3d(0, 0, 0);
+    transform:translate3d(0, 0, 0);
+}
+
+[ui-view].ng-leave-active {
+    opacity: 0;
+    -webkit-transform:translate3d(100px, 0, 0);
+    -moz-transform:translate3d(100px, 0, 0);
+    transform:translate3d(100px, 0, 0);
+}
+
+
+.condition .body ul {
+    list-style: none;
+    text-align: justify;
+    font-size: 15px;
+}
+
+.body {
+    display: none;
+}
+
+.condition .header {
+    text-align: justify;
+    cursor: pointer;
+}
+
+.condition .header label:hover {
+    background-color: #f2f2f2;
+}
+
+.btn-group-vertical.conditions label {
+    padding: 10px;
+    box-sizing: content-box;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    color: black;
+    font-size: 22px;
+    text-align: justify;
+}
+
+label.btn:active,label.btn:hover {
+    box-shadow: none;
+    background-color: #f2f2f2;
+}
+
+label.btn.active {
+    box-shadow: none;
+    box-sizing: content-box;
+    border: solid 2px #43bcf0;
+}
+
+.info-header{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 480px;
+    margin-top: 35px;
+    text-align: center;
+}
+
+.center {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}

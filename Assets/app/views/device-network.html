@@ -1,0 +1,21 @@
+
+
+
+
+<div class="row text-center">
+    <div class="col-sm-6 device-model">
+        <span class="icon" ng-class="device_class"></span>
+        <h3>{{ image_label }}</h3>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-4 device-model" ng-repeat="network in networks">
+                <a class="btn" ng-click="selectNetwork(network,'device-condition')" >
+                    <img ng-src="/Assets/img/{{ network.image_url }}" style="height: 80px;" class="center img-rounded img-responsive" />
+                    <h3>{{ network.name }}</h3>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

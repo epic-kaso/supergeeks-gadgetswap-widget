@@ -1,0 +1,13 @@
+<div class="row text-center">
+    <div class="col-sm-6 device-model">
+        <img ng-src="/Assets/img/{{ image_url }}" style="height: 175px;" class="center img-rounded img-responsive" />
+        <h3>{{ image_label }}</h3>
+    </div>
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-4 device-make" ng-repeat="m in models">
+                <button class="btn btn-default btn-block" ng-click="selectModel(m,'device-size')" >{{ m.model }}</button>
+            </div>
+        </div>
+    </div>
+</div>
