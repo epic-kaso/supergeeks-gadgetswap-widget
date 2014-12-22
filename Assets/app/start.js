@@ -34,7 +34,7 @@ app.run(function ($rootScope, CurrentGadget,GadgetsInfoServ,$location) {
                     break;
                 case 'device_network':
                     if(!$rootScope.currentGadget.network)
-                        $rootScope.currentGadget.network = GadgetsInfoServ.getNetworkByName(value);
+                        $rootScope.currentGadget.network = GadgetsInfoServ.getNetworkBySlug(value);
                     break;
                 case 'device_condition':
                     if(!$rootScope.currentGadget.condition)

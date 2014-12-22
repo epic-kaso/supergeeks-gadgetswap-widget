@@ -91,7 +91,7 @@ app.controller('DeviceNetworkController',
                     device_make:  $stateParams.device_make,
                     device_model: $stateParams.device_model,
                     device_size:  $stateParams.device_size,
-                    device_network: network.name
+                    device_network: network.slug
                 });
         }
     });

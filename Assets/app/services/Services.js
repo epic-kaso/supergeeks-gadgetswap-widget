@@ -90,6 +90,7 @@ app.factory('GadgetsInfoServ',function($http,GadgetServ,$q){
                 GadgetServ.setModels(window.gadget_swap.data.models);
                 GadgetServ.setDevices(window.gadget_swap.data.devices);
                 cache = window.gadget_swap.data;
+                networks = window.gadget_swap.data.networks;
                 p.resolve(window.gadget_swap.data);
             }
             return p.promise;
@@ -154,6 +155,13 @@ app.factory('GadgetsInfoServ',function($http,GadgetServ,$q){
         getNetworkByName: function(name){
             for(var i = 0;i < networks.length; i++){
                 if(networks[i].name == name)
+                    return networks[i];
+            }
+            return {};
+        },
+        getNetworkBySlug: function(name){
+            for(var i = 0;i < networks.length; i++){
+                if(networks[i].slug == name)
                     return networks[i];
             }
             return {};
