@@ -37,7 +37,7 @@ class HomeController extends BaseController {
 
         foreach($networks as $network){
             $t = json_decode($network->to_json());
-            $t->slug = url_title($t->name);
+            $t->slug =  strtolower(url_title($t->name));
             $data['networks'][] = $t;
         }
 
