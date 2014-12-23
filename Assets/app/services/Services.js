@@ -190,3 +190,21 @@ app.factory('GadgetsInfoServ',function($http,GadgetServ,$q,$rootScope){
 
     }
 });
+
+app.factory('PreloadTemplates',function ($templateCache, $http,ViewBaseURL) {
+    var templates = [
+        ViewBaseURL+"/device-make.html",
+        ViewBaseURL+"/device-model.html",
+        ViewBaseURL+"/device-size.html",
+        ViewBaseURL+"/device-network.html",
+        ViewBaseURL+"/device-condition.html",
+        ViewBaseURL+"/device-reward.html"
+    ];
+    return {
+        run: function(){
+            templates.forEach(function(currentItem){
+                $http.get(currentItem, { cache: $templateCache });
+            });
+        }
+    }
+});

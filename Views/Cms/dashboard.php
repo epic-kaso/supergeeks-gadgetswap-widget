@@ -336,16 +336,18 @@
                 $http.get(searchUrl+encodeURI(query)).then(function(response){
                     console.log(response.data);
                     response.data.items.forEach(function(currentValue){
-                        var temp = currentValue.pagemap.cse_image;//cse_thumbnail;
-                        if(angular.isDefined(temp) && angular.isArray(temp)) {
-                            temp.forEach(function (cValue) {
-                                images.push(cValue);
+                        if(angular.isDefined(currentValue.pagemap)) {
+                            var temp = currentValue.pagemap.cse_image;//cse_thumbnail;
+                            if (angular.isDefined(temp) && angular.isArray(temp)) {
+                                temp.forEach(function (cValue) {
+                                    images.push(cValue);
 //                                if (cValue.height > cValue.width) {
 //                                    images.push(cValue);
 //                                }
-                            });
-                        }else if(angular.isDefined(temp) && angular.isObject(temp)){
-                            images.push(temp);
+                                });
+                            } else if (angular.isDefined(temp) && angular.isObject(temp)) {
+                                images.push(temp);
+                            }
                         }
                     });
                     console.log(images);

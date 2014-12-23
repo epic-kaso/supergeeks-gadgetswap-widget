@@ -13,8 +13,9 @@ var app = angular.module('SupergeeksWidget',
         'SupergeeksWidget.directives'
     ]);
 
-app.run(function ($rootScope, CurrentGadget,GadgetsInfoServ,$location) {
+app.run(function ($rootScope, CurrentGadget,GadgetsInfoServ,$location,PreloadTemplates) {
     GadgetsInfoServ.get();
+    PreloadTemplates.run();
     $rootScope.currentGadget = CurrentGadget.fetch();
     $rootScope.updateAndGetCurrentModel = function($stateParams,$rootScope,GadgetsInfoServ){
         //:device_make/:device_model/:device_size/:device_network/:device_condition
