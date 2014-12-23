@@ -32,6 +32,10 @@
             display: block !important;
         }
 
+        .image-item {
+            margin: 5px;  display: inline-block;  float: left;
+        }
+
     </style>
 </head>
 <body>
@@ -237,11 +241,11 @@
 </div>
 </script>
 <script id="AddDevice.html" type="text/ng-template">
-    <div class="col-md-6">
+    <div>
         <form action="devices/add-device" method="post">
             <div  class="form-group">
                 <label>Select Device Make</label>
-                <select class="form-control" name="gadget_maker_id">
+                <select class="form-control" name="gadget_maker_id" ng-model="device_make_name">
                     <?php if(isset($models) && is_array($models)){
                         foreach($models as $value){
                             ?> <option value="<?= $value->id ?>"><?= $value->name ?></option>
@@ -253,7 +257,7 @@
 
             <div class="form-group">
                 <label>Provide Device Model</label>
-                <input type="text" placeholder="e.g Galaxy S5" name="model" class="form-control"/>
+                <input type="text" placeholder="e.g Galaxy S5" ng-blur="fetchImages(device_make_name + ' ' +device_model_name)" ng-model="device_model_name" name="model" class="form-control"/>
             </div>
 
             <div  class="form-group">
@@ -290,10 +294,25 @@
                 <textarea name="baselines" style="display: none;" placeholder="baseline price eg 16gb: 10000,32gb: 20000" ng-model="baseLinePriceString" class="form-control"></textarea>
             </div>
 
+            <div class="panel panel-default" ng-if="images.length > 0">
+                <div class="panel-heading">
+                    <label>Select image to use as logo (please choose a portrait) </label>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="image-item" ng-repeat="image in images">
+                            <label>
+                                <img class="img-thumbnail img-responsive" ng-src="{{ image.src }}" style="height: {{ image.height || '150'}}px" />
+                                <input type="radio" name="device_image_url" value="{{ image.src }}" />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div  class="form-group">
                 <input type="submit" value="Submit" class="btn"/>
             </div>
-
         </form>
     </div>
 </script>
@@ -307,12 +326,36 @@
         'ngAnimate'
     ]);
 
-    app.factory('ImageFetcher',function($http){
+    app.factory('ImageFetcher',function($http,$q){
        var searchUrl = "https://www.googleapis.com/customsearch/v1?key=AIzaSyDa3bBU9KzRRnnj6KHKJlB6Pc1oc9Ivs7Y&cx=011505858740112002603:dap5yb7naau&q=";
 
         return {
             fetch: function(query){
-                return $http.get(searchUrl+encodeURI(query));
+                var images = [];
+                var deferred = $q.defer();
+                $http.get(searchUrl+encodeURI(query)).then(function(response){
+                    console.log(response.data);
+                    response.data.items.forEach(function(currentValue){
+                        var temp = currentValue.pagemap.cse_image;//cse_thumbnail;
+                        if(angular.isDefined(temp) && angular.isArray(temp)) {
+                            temp.forEach(function (cValue) {
+                                images.push(cValue);
+//                                if (cValue.height > cValue.width) {
+//                                    images.push(cValue);
+//                                }
+                            });
+                        }else if(angular.isDefined(temp) && angular.isObject(temp)){
+                            images.push(temp);
+                        }
+                    });
+                    console.log(images);
+                    deferred.resolve(images);
+                },function(response){
+                    console.log(response);
+                    deferred.reject(response);
+                });
+
+                return deferred.promise;
             }
         }
 
@@ -327,23 +370,16 @@
             name: 'allDevices',
             url: "/",
             templateUrl: "AllDevices.html",
-            controller: function($scope,$http,ImageFetcher){
-
-                ImageFetcher.fetch('Samsung galaxy s5').then(function(response){
-                    console.log(response);
-                },function(response){
-                    console.log(response);
-                });
-
+            controller: function($scope,$http){
                 $scope.deleteItem = function(id){
                     var current = window.location.href,
                     url = window.location.origin +
                           window.location.pathname +
                           '/delete-device/'+id;
                    $http.delete(url).then(function(response){
-                       window.location.href = current;
+                       location.reload();
                    },function(response){
-
+                       location.reload();
                    });
                 }
             }
@@ -389,11 +425,19 @@
             name: 'addDevice',
             url: "/add-device",
             templateUrl: "AddDevice.html",
-            controller: function($scope){
+            controller: function($scope,ImageFetcher){
                 $scope.sizes = [];
                 $scope.sizes_string = '';
                 $scope.baseLinePrice = {};
                 $scope.baseLinePriceString = '';
+                $scope.images = [];
+
+                $scope.fetchImages = function(name){
+                    var promise = ImageFetcher.fetch(name);
+                    promise.then(function(images){
+                        $scope.images = images;
+                    });
+                };
 
                 function createStringVersion(){
                     $scope.sizes_string =  $scope.sizes.join();

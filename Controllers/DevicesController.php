@@ -147,6 +147,9 @@ class DevicesController extends BaseController {
             $make->create_base_line_prices(array('size' => trim($key), 'value' => trim($value)));
         }
 
+        if(isset($data['device_image_url'])){
+            $make->image_url = $data['device_image_url'];
+        }
         $make->save();
 
         $app->redirect($app->urlFor('DevicesController@getIndex'));

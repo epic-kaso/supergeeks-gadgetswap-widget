@@ -58,6 +58,7 @@ app.controller('DeviceSizeController',
         $scope.device_class = $rootScope.device_make = 'others';
         $scope.image_label = $scope.currentGadget.make +' '+
                              $scope.currentGadget.model.model;
+        $scope.image_url = $scope.currentGadget.model.image_url || '/Assets/img/smartphone.png';
 
         $scope.sizes = $scope.currentGadget.model.sizes;
 
@@ -84,7 +85,7 @@ app.controller('DeviceNetworkController',
         $scope.device_class = $rootScope.device_make = 'others';
         $scope.image_label = $scope.currentGadget.make +' '+
         $scope.currentGadget.model.model;
-
+        $scope.image_url = $scope.currentGadget.model.image_url || '/Assets/img/smartphone.png';
         $scope.networks = Networks;
 
         $scope.selectNetwork = function (network, state) {
@@ -102,7 +103,7 @@ app.controller('DeviceNetworkController',
 app.controller('DeviceConditionController',
     function (CurrentModel,$scope, $stateParams, GadgetsInfoServ, $state,$rootScope) {
         $scope.conditions = GadgetsInfoServ.getConditions();
-
+        $scope.image_url = $scope.currentGadget.model.image_url || '/Assets/img/smartphone.png';
         $rootScope.big_heading = 'Lastly, Tell Us Your Device\'s Condition';
 
         $scope.$emit('progress-update-event', '70%');
