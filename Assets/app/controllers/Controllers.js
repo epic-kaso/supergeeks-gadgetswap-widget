@@ -100,24 +100,8 @@ app.controller('DeviceNetworkController',
     });
 
 app.controller('DeviceConditionController',
-    function (CurrentModel,$scope, $stateParams, GadgetServ, $state,$rootScope) {
-        $scope.conditions = [
-            {
-                name: 'Like New',
-                slug: 'Like-New',
-                value: $scope.currentGadget.current_make.normal_condition
-            },
-            {
-                name: 'Scratches & Cracks',
-                slug: 'Scratches-Cracks',
-                value: $scope.currentGadget.current_make.scratched_condition
-            },
-            {
-                name: 'Faulty',
-                slug: 'Faulty',
-                value: $scope.currentGadget.current_make.bad_condition
-            }
-        ];
+    function (CurrentModel,$scope, $stateParams, GadgetsInfoServ, $state,$rootScope) {
+        $scope.conditions = GadgetsInfoServ.getConditions();
 
         $rootScope.big_heading = 'Lastly, Tell Us Your Device\'s Condition';
 
@@ -160,7 +144,9 @@ app.controller('DeviceRewardController',
 
         var reward = $scope.currentGadget.getReward();
         if(angular.isNumber(reward)){
-            $scope.reward_price = 'Upto '+ $filter('currency')(reward,'₦') + ' in Supergeeks Benefits';
+            $scope.reward_price = $filter('currency')(reward,'₦') + '*';
+            $scope.reward_message = 'Estimated Value is';
+            $scope.reward_disclaimer = '*this value is subject to final verification by our engineers.'
         }else{
             $scope.reward_price = reward;
         }

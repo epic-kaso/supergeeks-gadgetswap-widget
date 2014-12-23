@@ -60,7 +60,7 @@ app.factory('CurrentGadget',function(){
     }
 });
 
-app.factory('GadgetsInfoServ',function($http,GadgetServ,$q){
+app.factory('GadgetsInfoServ',function($http,GadgetServ,$q,$rootScope){
     var cache;
     var networks = [
         {
@@ -167,6 +167,25 @@ app.factory('GadgetsInfoServ',function($http,GadgetServ,$q){
                     return networks[i];
             }
             return {};
+        },
+        getConditions: function(){
+            return  [
+                {
+                    name: 'Like New',
+                    slug: 'Like-New',
+                    value: $rootScope.currentGadget.current_make.normal_condition
+                },
+                {
+                    name: 'Scratches & Cracks',
+                    slug: 'Scratches-Cracks',
+                    value: $rootScope.currentGadget.current_make.scratched_condition
+                },
+                {
+                    name: 'Faulty',
+                    slug: 'Faulty',
+                    value: $rootScope.currentGadget.current_make.bad_condition
+                }
+            ];
         }
 
     }

@@ -101,7 +101,7 @@
             <a
                 class="btn"
                 ng-class="{disabled: !currentGadget.make || !currentGadget.model.slug || !currentGadget.size.slug || !currentGadget.network.name}"
-                ui-sref="device-condition({device_make: currentGadget.make,device_model: currentGadget.model.slug,device_size: currentGadget.size.slug,device_network: currentGadget.network.name})" ui-sref-active="active">
+                ui-sref="device-condition({device_make: currentGadget.make,device_model: currentGadget.model.slug,device_size: currentGadget.size.slug,device_network: currentGadget.network.slug})" ui-sref-active="active">
                 <p>Condition</p>
                 <span ng-bind="currentGadget.condition" ></span>
             </a>

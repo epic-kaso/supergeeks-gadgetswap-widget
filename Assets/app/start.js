@@ -38,10 +38,19 @@ app.run(function ($rootScope, CurrentGadget,GadgetsInfoServ,$location) {
                     if(!$rootScope.currentGadget.network)
                         $rootScope.currentGadget.network = GadgetsInfoServ.getNetworkBySlug(value);
                     break;
+                case 'device-reward':
                 case 'device_condition':
+                    var conditions = GadgetsInfoServ.getConditions();
                     if(!$rootScope.currentGadget.condition)
                         $rootScope.currentGadget.condition = value;
+                    for(var i = 0;i < conditions.length;i++){
+                        if(conditions[i].slug == value) {
+                            $rootScope.currentGadget.condition_value = conditions[i].value;
+                            break;
+                        }
+                    }
                     break;
+
             }
         });
     };

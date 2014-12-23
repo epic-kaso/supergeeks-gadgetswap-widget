@@ -13,7 +13,6 @@
     require_once 'Models/GadgetMaker.php';
     require_once 'Models/Network.php';
     require_once 'Models/Size.php';
-    require_once 'Models/GadgetViewModel.php';
     require_once 'Models/Color.php';
     require_once 'Models/BaseLinePrice.php';
 
