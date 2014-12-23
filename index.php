@@ -21,6 +21,7 @@
     $app = new \Slim\Slim(array(
         'templates.path' => './Views'
     ));
+    //ModelConfig::setup('supergee_gadgets','X-8Nd]C~!Brl','localhost','supergee_gadgetswap');
     ModelConfig::setup('root','','localhost','sendy');
     \Controllers\HomeController::newInstance($app);
     \Controllers\DevicesController::newInstance($app, '/devices');
