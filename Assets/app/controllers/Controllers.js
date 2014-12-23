@@ -32,6 +32,8 @@ app.controller('DeviceModelController',
         $scope.$emit('progress-update-event', '20%');
 
         $scope.currentGadget.make = $stateParams.device_make;
+        $scope.currentGadget.current_make = CurrentMake;
+
         $scope.image_label = $scope.currentGadget.make;
         $scope.image_url = CurrentMake.image_url || 'smartphone.png';
 
@@ -48,7 +50,7 @@ app.controller('DeviceModelController',
     });
 
 app.controller('DeviceSizeController',
-    function ($scope, $stateParams, $cookieStore, GadgetServ, $state,$rootScope) {
+    function ($scope, $stateParams, $cookieStore, GadgetServ, $state,$rootScope,GadgetsInfoServ) {
         $rootScope.big_heading = 'Ok, Select your Device Storage Size';
 
         $scope.$emit('progress-update-event', '54%');
@@ -61,6 +63,7 @@ app.controller('DeviceSizeController',
 
         $scope.selectSize = function (size, state) {
             $scope.currentGadget.size = size;
+            $scope.currentGadget.baseLinePrice = GadgetsInfoServ.getBaseLinePriceForSize($scope.currentGadget.model,size.value);
             $state.go(state,
                 {
                     device_make: $stateParams.device_make,
@@ -98,11 +101,35 @@ app.controller('DeviceNetworkController',
 
 app.controller('DeviceConditionController',
     function (CurrentModel,$scope, $stateParams, GadgetServ, $state,$rootScope) {
+        $scope.conditions = [
+            {
+                name: 'Like New',
+                slug: 'Like-New',
+                value: $scope.currentGadget.current_make.normal_condition
+            },
+            {
+                name: 'Scratches & Cracks',
+                slug: 'Scratches-Cracks',
+                value: $scope.currentGadget.current_make.scratched_condition
+            },
+            {
+                name: 'Faulty',
+                slug: 'Faulty',
+                value: $scope.currentGadget.current_make.bad_condition
+            }
+        ];
+
         $rootScope.big_heading = 'Lastly, Tell Us Your Device\'s Condition';
 
         $scope.$emit('progress-update-event', '70%');
 
         $scope.$watch('radioModel', function (newv, oldv) {
+            for(var i = 0;i < $scope.conditions.length;i++){
+                if($scope.conditions[i].slug == newv) {
+                    $scope.currentGadget.condition_value = $scope.conditions[i].value;
+                    break;
+                }
+            }
             $scope.currentGadget.condition = newv;
             $scope.$emit('progress-update-event', '80%');
         });
@@ -128,14 +155,14 @@ app.controller('DeviceConditionController',
     });
 
 app.controller('DeviceRewardController',
-    function ($scope,$rootScope) {
+    function ($scope,$rootScope,$filter) {
         $rootScope.big_heading = 'Yay!, Here\'s your Reward';
 
-        $condition = $scope.currentGadget.condition;
-        if($condition == 'Like New' || $condition == 'Normal'){
-            $scope.reward_price = 'Upto N15,000 in Supergeeks Benefits';
+        var reward = $scope.currentGadget.getReward();
+        if(angular.isNumber(reward)){
+            $scope.reward_price = 'Upto '+ $filter('currency')(reward,'₦') + ' in Supergeeks Benefits';
         }else{
-            $scope.reward_price = 'You really need to come in, so we can evaluate your device';
+            $scope.reward_price = reward;
         }
     });
 

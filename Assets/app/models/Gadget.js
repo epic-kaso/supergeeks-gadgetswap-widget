@@ -20,8 +20,14 @@ Gadget.prototype.getValue = function(){
 };
 
 Gadget.prototype.getNetworkBonus = function(){
-    if(this.network == 'airtel')
-        return 10;
-    return 0;
+    if(this.network)
+        return this.network.description;
+    return 'none';
+};
+
+Gadget.prototype.getReward = function(){
+    if(this.size && this.baseLinePrice && this.condition_value)
+        return parseInt(parseInt(this.baseLinePrice) * (this.condition_value/ 100.0));
+    return 'Sorry, You\'ll have to come to our Swap Location.';
 };
 

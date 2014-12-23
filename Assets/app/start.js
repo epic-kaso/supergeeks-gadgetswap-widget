@@ -21,8 +21,10 @@ app.run(function ($rootScope, CurrentGadget,GadgetsInfoServ,$location) {
         angular.forEach($stateParams,function(value,key){
             switch (key){
                 case 'device_make':
-                    if(!$rootScope.currentGadget.make)
+                    if(!$rootScope.currentGadget.make) {
                         $rootScope.currentGadget.make = value;
+                        $rootScope.currentGadget.current_make = GadgetsInfoServ.getMakeByName(value);
+                    }
                     break;
                 case 'device_model':
                     if(!$rootScope.currentGadget.model)
@@ -109,13 +111,6 @@ app.config(function ($stateProvider, $urlRouterProvider,ViewBaseURL) {
                 return GadgetsInfoServ.getModelByName($stateParams.device_model);
             },
             'Networks': function ($rootScope,GadgetsInfoServ) {
-                if ($rootScope.currentGadget.make == '' ||
-                    $rootScope.currentGadget.model == '' ||
-                    $rootScope.currentGadget.size == ''
-                ) {
-                    $rootScope.$broadcast('required:size');
-                }
-
                 return GadgetsInfoServ.getNetworks();
             }
         }

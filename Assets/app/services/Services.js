@@ -152,12 +152,14 @@ app.factory('GadgetsInfoServ',function($http,GadgetServ,$q){
         getNetworks: function(){
             return networks;
         },
-        getNetworkByName: function(name){
-            for(var i = 0;i < networks.length; i++){
-                if(networks[i].name == name)
-                    return networks[i];
-            }
-            return {};
+        getBaseLinePriceForSize: function(model,size){
+            var result = {data: ''};
+            angular.forEach(model.base_line_prices,function(v,k){
+                if(v['size'] == size)
+                    this.data = v['value'];
+                return v['value'];
+            },result);
+            return result.data;
         },
         getNetworkBySlug: function(name){
             for(var i = 0;i < networks.length; i++){
