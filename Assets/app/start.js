@@ -152,7 +152,7 @@ app.config(function ($stateProvider, $urlRouterProvider,ViewBaseURL) {
 
     var bookAppointment = {
         name: 'book-appointment',
-        url: "/book-appointment",
+        url: "/book-appointment/:swap_center",
         templateUrl: ViewBaseURL+"/book-appointment.html",
         controller: 'BookAppointmentController'
     };

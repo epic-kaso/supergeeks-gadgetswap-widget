@@ -24,14 +24,14 @@
         </div>
         <div class="info-header">
             <div class="tiny-heading text-muted"><h4 ng-bind="tiny_heading"></h4></div>
-            <div class="big-heading"><h1 ng-bind="big_heading"></h1></div>
+            <div class="big-heading"><h1 ng-bind="big_heading" style="color: #43bcf0"></h1></div>
         </div>
     </div>
 </div>
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-12 col-lg-offset-2 col-lg-8">
+        <div class="col-md-12 col-lg-offset-1 col-lg-10">
             <div class="widget-canvas">
                 <div ui-view class="v">
                     <div class="" style="

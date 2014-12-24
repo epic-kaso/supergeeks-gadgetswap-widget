@@ -198,7 +198,8 @@ app.factory('PreloadTemplates',function ($templateCache, $http,ViewBaseURL) {
         ViewBaseURL+"/device-size.html",
         ViewBaseURL+"/device-network.html",
         ViewBaseURL+"/device-condition.html",
-        ViewBaseURL+"/device-reward.html"
+        ViewBaseURL+"/device-reward.html",
+        ViewBaseURL+"/book-appointment.html"
     ];
     return {
         run: function(){

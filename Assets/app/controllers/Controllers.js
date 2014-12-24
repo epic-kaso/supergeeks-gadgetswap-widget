@@ -41,6 +41,7 @@ app.controller('DeviceModelController',
 
         $scope.selectModel = function (model, state) {
             $scope.currentGadget.model = model;
+            $scope.currentGadget.image_url = $scope.currentGadget.model.image_url || '/Assets/img/smartphone.png';
             $state.go(state,
                 {
                     device_make: $stateParams.device_make,
@@ -157,6 +158,7 @@ app.controller(
     'BookAppointmentController',
     function ($scope, $stateParams, $cookieStore, MailServ,$state,$rootScope) {
         $rootScope.big_heading = "Book An Appointment";
+        $scope.swap_center = $stateParams.swap_center.replace('-',' ');
 
         $scope.sendMail = function (destination, message) {
             var promise = MailServ.send(message, destination);

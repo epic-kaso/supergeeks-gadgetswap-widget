@@ -2,10 +2,35 @@
     <div class="col-sm-12">
         <div class="row">
             <span ng-bind="reward_message"></span>
-            <h1 ng-bind="reward_price"></h1>
+            <h1 ng-bind="reward_price"
+                style="color: orange;font-weight: 500;font-size: 50px;"
+                    ></h1>
             <p ng-bind="reward_disclaimer"></p>
-            <p>Book an appointment now to grab offer from our office</p>
-            <a ui-sref="book-appointment" class="btn btn-success">Book Appointment Now</a>
+            <span class="seperator">&ac;</span>
+
+            <div>
+                <h4 style="font-weight: 400">choose a swap location closet to you to redeem your reward</h4>
+                <div class="swap-locations">
+                    <a ui-sref="book-appointment({swap_center: 'Airtel-Office-Palm-Shopping-Mall' })" class="swap-location">
+                        <h3>Airtel Office</h3>
+                        <p>Palm Shopping Mall</p>
+                    </a>
+                    <a ui-sref="book-appointment({swap_center: 'Airtel-Office-Shoprite-Lekki' })" class="swap-location">
+                        <h3>Airtel Office</h3>
+                        <p>Shoprite, Lekki</p>
+                    </a>
+                    <a ui-sref="book-appointment({swap_center: 'Airtel-Office-Ikeja-Mall' })" class="swap-location">
+                        <h3>Airtel Office</h3>
+                        <p>Ikeja Mall</p>
+                    </a>
+                    <a ui-sref="book-appointment({swap_center: 'Airtel-Office-Sanusi-Fafuwa-VI' })" class="swap-location">
+                        <h3>Airtel Office</h3>
+                        <p>Sanusi Fafunwa, V.I</p>
+                    </a>
+                </div>
+            </div>
+            <!--<p>Book an appointment now to grab offer from our office</p>-->
+            <!--<a ui-sref="book-appointment" class="btn btn-success">Book Appointment Now</a>-->
         </div>
     </div>
 </div>
