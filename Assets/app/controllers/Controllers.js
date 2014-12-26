@@ -39,7 +39,7 @@ app.controller('DeviceModelController',
 
         $scope.models = Models;
 
-        $scope.selectModel = function (model, state) {
+        $scope.selectModel = function ($event,model, state) {
             $scope.currentGadget.model = model;
             $scope.currentGadget.image_url = $scope.currentGadget.model.image_url || '/Assets/img/smartphone.png';
             $state.go(state,
@@ -47,6 +47,8 @@ app.controller('DeviceModelController',
                     device_make: $stateParams.device_make,
                     device_model: model.slug
                 });
+            console.log($event);
+            $event.preventDefault();
         }
     });
 
@@ -63,7 +65,7 @@ app.controller('DeviceSizeController',
 
         $scope.sizes = $scope.currentGadget.model.sizes;
 
-        $scope.selectSize = function (size, state) {
+        $scope.selectSize = function ($event,size, state) {
             $scope.currentGadget.size = size;
             $scope.currentGadget.baseLinePrice = GadgetsInfoServ.getBaseLinePriceForSize($scope.currentGadget.model,size.value);
             $state.go(state,
@@ -73,6 +75,7 @@ app.controller('DeviceSizeController',
                     device_size: size.slug
                 }
             );
+            $event.preventDefault();
         }
     });
 
@@ -89,7 +92,7 @@ app.controller('DeviceNetworkController',
         $scope.image_url = $scope.currentGadget.model.image_url || '/Assets/img/smartphone.png';
         $scope.networks = Networks;
 
-        $scope.selectNetwork = function (network, state) {
+        $scope.selectNetwork = function ($event, network, state) {
             $scope.currentGadget.network = network;
             $state.go(state,
                 {
@@ -98,6 +101,7 @@ app.controller('DeviceNetworkController',
                     device_size:  $stateParams.device_size,
                     device_network: network.slug
                 });
+            $event.preventDefault();
         }
     });
 
@@ -158,7 +162,7 @@ app.controller(
     'BookAppointmentController',
     function ($scope, $stateParams, $cookieStore, MailServ,$state,$rootScope) {
         $rootScope.big_heading = "Book An Appointment";
-        $scope.swap_center = $stateParams.swap_center.replace('-',' ');
+        $scope.swap_center = $stateParams.swap_center.split('-').join(' ');
 
         $scope.sendMail = function (destination, message) {
             var promise = MailServ.send(message, destination);

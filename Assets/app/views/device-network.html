@@ -3,16 +3,19 @@
 
 
 <div class="row text-center">
-    <div class="col-sm-6 device-model">
-        <img ng-src="{{ image_url }}" style="height: 175px;" class="center img-rounded img-responsive" />
+    <div class="col-sm-4 device-model">
+        <img ng-src="{{ image_url }}" class="center img-rounded img-responsive" />
         <h3>{{ image_label }}</h3>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-8">
         <div class="row">
-            <div class="col-sm-4 device-model" ng-repeat="network in networks">
-                <a class="btn" ng-click="selectNetwork(network,'device-condition')" >
-                    <img ng-src="/Assets/img/{{ network.slug }}.jpg" style="height: 80px;" class="center img-rounded img-responsive" />
+            <div class="device-make swap-locations" >
+                <a href="#"
+                   class="swap-location device-model-item"
+                   ng-repeat="network in networks"
+                   ng-click="selectNetwork($event,network,'device-condition')" >
+                    <img ng-src="/Assets/img/{{ network.slug }}.jpg" class="center img-rounded img-responsive" />
                     <h3>{{ network.name }}</h3>
                 </a>
             </div>

@@ -1,6 +1,6 @@
 <div class="col-md-10 col-md-offset-1 text-justify">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 col-sm-12">
                 <form ng-submit="sendMail(bookappointment.email,'successfully booked service')">
                     <div class="form-group">
                         <h2 ng-bind="swap_center"></h2>
@@ -19,11 +19,11 @@
                 </form>
             </div>
 
-            <div class="col-md-3 device-model">
+            <div class="col-md-3 device-model hide-on-mobile">
                 <img ng-src="{{ currentGadget.image_url }}" style="height: 175px;" class="center img-rounded img-responsive" />
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-3 hide-on-mobile">
                 <div class="form-group">
                     <label>Device</label>
                     <span ng-bind="currentGadget.make" class="form-control-static"></span>

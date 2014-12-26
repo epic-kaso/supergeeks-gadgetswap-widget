@@ -63,6 +63,56 @@ h1,h2,h3,h4{
     background-position-y: -331px;
     width: 87px;
 }
+@media (max-width: 768px){
+    .navbar{
+        min-height: 10px !important;
+    }
+    .navbar-header img.img-responsive
+    {
+        width: 200px;
+        margin-right: auto;
+        margin-left: auto;
+
+    }
+    .info-header{
+        margin-top: 10px;
+    }
+
+    .info-header .big-heading h1
+    {
+        font-size: 20px;
+    }
+    .info-header .tiny-heading h4
+    {
+        font-size: 12px;
+    }
+}
+@media (max-width: 768px){
+    .device-model {
+        width: 100% !important;
+        display: inline-block !important;
+        float: left !important;
+    }
+    a.device-model-item{
+        min-width: 50px !important;
+        float: left !important;
+    }
+
+    .device-model-item img
+    {
+        height: 50px !important;
+    }
+
+    .device-model-item h3{
+        font-size: 15px !important;
+        margin: 4px !important;
+    }
+}
+
+.device-model-item img
+{
+    height: 80px;
+}
 
 .device-model a:hover{
     border-radius: 3px;
@@ -78,19 +128,33 @@ h1,h2,h3,h4{
     padding: 10px;
 }
 
+
+@media (min-width: 768px) {
+    .big-heading {
+        margin-top: 20px !important;
+        margin-bottom: 60px !important;
+    }
+}
 .big-heading {
-    margin-top: 20px;
-    margin-bottom: 60px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+    .progress-item {
+        display: inline-block !important;
+        width: 13% !important;
+        text-align: center !important;
+        padding-top: 15px !important;
+        padding-bottom: 10px !important;
+    }
 }
 
 .progress-item {
-    display: inline-block;
-    width: 13%;
+    display: none;
+    width: 50%;
     margin-left: auto;
     margin-right: auto;
-    text-align: center;
-    padding-top: 15px;
-    padding-bottom: 10px;
 }
 
 .progress-item a{
@@ -242,11 +306,16 @@ label.btn.active {
     border: solid 2px #43bcf0;
 }
 
+@media (min-width: 768px) {
+    .info-header{
+        width: 480px !important;
+    }
+}
+
 .info-header{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 480px;
     margin-top: 35px;
     text-align: center;
 }
@@ -263,6 +332,12 @@ label.btn.active {
     transition: all 0.5s;
     cursor: pointer;
     text-decoration: none !important;
+}
+
+@media (max-width: 768px) {
+    .swap-locations {
+        clear: both !important;
+    }
 }
 
 .swap-locations {
@@ -283,4 +358,55 @@ span.seperator {
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center;
+}
+
+@media (min-width: 768px) {
+    a.device-model-item {
+        min-width: 150px;
+        float: left !important;
+        font-size: 20px;
+    }
+}
+
+a.device-model-item {
+    min-width: 150px;
+    font-size: 20px;
+}
+
+@media (min-width: 768px) {
+    a.device-model-item {
+        margin-right: auto;
+        float: none;
+    }
+}
+
+.conditions label.btn {
+    margin-bottom: 5px;
+}
+
+@media (min-width: 768px) {
+    .device-model img {
+        height: 175px !important;
+        float: none !important;
+    }
+    .device-model h3 {
+        display: block !important;
+    }
+}
+
+.device-model img {
+    height: 80px;
+    float: left;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.device-model h3 {
+    display: inline-block;
+}
+
+@media (max-width: 768px) {
+    .hide-on-mobile{
+        display: none !important;
+    }
 }
