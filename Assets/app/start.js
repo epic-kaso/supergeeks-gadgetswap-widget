@@ -160,7 +160,7 @@ app.config(function ($stateProvider, $urlRouterProvider,ViewBaseURL) {
     var success = {
         name: 'success',
         url: "/successful-booking",
-        templateUrl: "app/views/book-success.html",
+        templateUrl: ViewBaseURL+"/book-success.html",
         controller: function ($scope) {
 
         }

@@ -16,6 +16,7 @@ class HomeController extends BaseController {
     function initialize() {
         $app = $this->getApp();
         $app->get($this->baseRoute, array($this, 'getIndex'));
+        $app->post($this->baseRoute . 'add-swap-detail', array($this, 'postSwapDetails'));
     }
 
     function getIndex() {
@@ -58,6 +59,43 @@ class HomeController extends BaseController {
         $app->render('index.php',array('objects' => $data));
     }
 
+    function postSwapDetails(){
+        /*
+         * {
+         * "device":{
+             *  "make":"Apple",
+             *  "current_make":{"id":1},
+             *  "model":{"id":15,"model":"Iphone 4s"},
+             *  "size":{"id":27,"gadget_id":15,"name":"","value":"16gb","baseline_price":0,"slug":"16gb"},
+             *  "baseLinePrice":"15000",
+             *  "network":{"id":1,"name":"Airtel Ng","description":"Get Extra 1 gigabyte of data when you swap your phone"},
+             *  "condition":"Like-New","condition_value":100
+         *  },
+         * "user":{
+         *      "email":"lordkaso@gmail.com"
+         *  }
+         * }
+         */
+        $app = $this->getApp();
+        //$details = $app->request->params();
+        $json_input_data = json_decode(file_get_contents('php://input'),TRUE);
+
+        $user = new \User();
+        $user->email = $json_input_data['user']['email'];
+        $user->phone = $json_input_data['user']['phone'];
+        $user->device_make = $json_input_data['device']['make'];
+        $user->device_model = $json_input_data['device']['model']['id'];
+        $user->device_size = $json_input_data['device']['size']['id'];
+        $user->device_network = $json_input_data['device']['network']['id'];
+        $user->device_condition = $json_input_data['device']['condition'];
+        $user->swap_location = $json_input_data['device']['swap_location'];
+        $user->device_reward = $json_input_data['device']['reward'];
+
+        $user->save();
+
+        $app->response->header('content-type','application/json');
+        $app->response->write($user->to_json());
+    }
     private function fetch_array($colors) {
         $r = array();
         foreach ($colors as $color) {

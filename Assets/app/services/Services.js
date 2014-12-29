@@ -30,10 +30,6 @@ app.factory('MailServ', function ($http) {
             "from_email": "supergeeks-widget@supergeeks.com.ng",
             "from_name": "Supergeeks Widget",
             "to": [
-                {
-                    "email": "",
-                    "type": "to"
-                }
             ],
             "headers": {"Reply-To": "no-reply@supergeeks.com.ng"},
             "important": true
@@ -43,9 +39,8 @@ app.factory('MailServ', function ($http) {
 
     return {
         send: function(message,destination){
-            data['message']['html'] = message;
-            data['message']['text'] = message;
-            data['message']['to'][0].email = destination;
+            data.message.html = message;
+            data.message.to.push({email: destination,type: 'to' });
             return $http.post(url,data);
         }
     }
@@ -186,6 +181,10 @@ app.factory('GadgetsInfoServ',function($http,GadgetServ,$q,$rootScope){
                     value: $rootScope.currentGadget.current_make.bad_condition
                 }
             ];
+        },
+        postSwapDetails: function(details){
+            var url = window.location.origin + "/add-swap-detail";
+            return $http.post(url,details);
         }
 
     }
@@ -199,7 +198,8 @@ app.factory('PreloadTemplates',function ($templateCache, $http,ViewBaseURL) {
         ViewBaseURL+"/device-network.html",
         ViewBaseURL+"/device-condition.html",
         ViewBaseURL+"/device-reward.html",
-        ViewBaseURL+"/book-appointment.html"
+        ViewBaseURL+"/book-appointment.html",
+        ViewBaseURL+"/book-success.html"
     ];
     return {
         run: function(){

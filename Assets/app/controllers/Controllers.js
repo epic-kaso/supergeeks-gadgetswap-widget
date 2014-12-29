@@ -149,6 +149,8 @@ app.controller('DeviceRewardController',
         $rootScope.big_heading = 'Yay!, Here\'s your Reward';
 
         var reward = $scope.currentGadget.getReward();
+        $scope.currentGadget.reward = reward;
+
         if(angular.isNumber(reward)){
             $scope.reward_price = $filter('currency')(reward,'₦') + '*';
             $scope.reward_message = 'Estimated Value is';
@@ -160,11 +162,28 @@ app.controller('DeviceRewardController',
 
 app.controller(
     'BookAppointmentController',
-    function ($scope, $stateParams, $cookieStore, MailServ,$state,$rootScope) {
+    function ($scope, $stateParams, $cookieStore, MailServ,$state,$rootScope, GadgetsInfoServ) {
         $rootScope.big_heading = "Book An Appointment";
+        var currentDevice = $scope.currentGadget;
+        currentDevice.swap_center = $stateParams.swap_center;
         $scope.swap_center = $stateParams.swap_center.split('-').join(' ');
 
-        $scope.sendMail = function (destination, message) {
+        $scope.sendMail = function (destination,phone, message) {
+            var info = {
+                device: currentDevice,
+                user: {
+                    email: destination,
+                    phone: phone
+                }
+            };
+
+            var p = GadgetsInfoServ.postSwapDetails(info);
+            p.then(function(response){
+                console.log(response);
+            },function(response){
+                console.log(response);
+            });
+
             var promise = MailServ.send(message, destination);
             promise.then(function (data) {
                 console.log(data);

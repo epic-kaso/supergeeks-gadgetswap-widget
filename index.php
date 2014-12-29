@@ -15,6 +15,7 @@
     require_once 'Models/Size.php';
     require_once 'Models/Color.php';
     require_once 'Models/BaseLinePrice.php';
+    require_once 'Models/User.php';
 
     \Slim\Slim::registerAutoloader();
 

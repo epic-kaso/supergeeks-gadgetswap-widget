@@ -1,7 +1,12 @@
 <div class="col-md-10 col-md-offset-1 text-justify">
         <div class="row">
             <div class="col-md-6 col-sm-12">
-                <form ng-submit="sendMail(bookappointment.email,'successfully booked service')">
+                <form ng-submit="sendMail(bookappointment.email,bookappointment.phone,'successfully booked service')">
+                    <input type="hidden" ng-model="currentGadget.make" name="device-make" />
+                    <input type="hidden" ng-model="currentGadget.model.model" name="device-model" />
+                    <input type="hidden" name="device-size" ng-model="currentGadget.size.value" />
+                    <input type="hidden" ng-model="currentGadget.network.name" name="device-network" />
+                    <input type="hidden" ng-model="currentGadget.condition" name="device-condition" />
                     <div class="form-group">
                         <h2 ng-bind="swap_center"></h2>
                     </div>
